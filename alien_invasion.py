@@ -54,7 +54,7 @@ def run_game():
 		
 		# Make the most recently drawn screen visible.
 		pygame.display.flip()"""
-		gf.update_bullets(bullets)
+		gf.update_bullets(aliens, bullets, ai_settings, screen)
 		gf.update_aliens(ai_settings, aliens)
 		gf.update_screen(ai_settings, screen, ship, aliens, bullets)
 
