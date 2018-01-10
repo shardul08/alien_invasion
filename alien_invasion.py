@@ -29,7 +29,7 @@ def run_game():
 	# Make a group of aliens.
 	aliens = Group()
 	
-	# Create a flrrt of aliens.
+	# Create a fleet of aliens.
 	gf.create_fleet(ai_settings, screen, aliens)
 	
 	# Start the main loop for the game.
@@ -55,6 +55,7 @@ def run_game():
 		# Make the most recently drawn screen visible.
 		pygame.display.flip()"""
 		gf.update_bullets(bullets)
+		gf.update_aliens(ai_settings, aliens)
 		gf.update_screen(ai_settings, screen, ship, aliens, bullets)
 
 run_game()
