@@ -5,6 +5,7 @@ from pygame.sprite import Group
 
 from settings import Settings
 from ship import Ship
+from game_stats import GameStats
 """from alien import Alien"""
 import game_functions as gf
 
@@ -20,6 +21,8 @@ def run_game():
 	# Set background colour.
 	#bg_color = (230,  230, 230)
 	
+	# Create an instance to store game statistics
+	stats = GameStats(ai_settings)
 	# Make a ship.
 	ship = Ship(ai_settings, screen)
 	# Make a group to store bullets in.
@@ -40,22 +43,23 @@ def run_game():
 			if event.type == pygame.QUIT:
 				sys.exit()"""
 		gf.check_events(ai_settings, screen, ship, bullets)
-		ship.update()
-		"""bullets.update()
-		
-		#Get rid of bullets that have disappeared.
-		for bullet in bullets.copy():
-			if bullet.rect.bottom <= 0:
-				bullets.remove(bullet)
-		#print(len(bullets))"""
-		"""# Redraw the screen during each pass through the loop.
-		screen.fill(ai_settings.bg_color)
-		ship.blitme()
-		
-		# Make the most recently drawn screen visible.
-		pygame.display.flip()"""
-		gf.update_bullets(aliens, bullets, ai_settings, screen)
-		gf.update_aliens(ai_settings, aliens)
+		if stats.game_active:
+			ship.update()
+			"""bullets.update()
+			
+			#Get rid of bullets that have disappeared.
+			for bullet in bullets.copy():
+				if bullet.rect.bottom <= 0:
+					bullets.remove(bullet)
+			#print(len(bullets))"""
+			"""# Redraw the screen during each pass through the loop.
+			screen.fill(ai_settings.bg_color)
+			ship.blitme()
+			
+			# Make the most recently drawn screen visible.
+			pygame.display.flip()"""
+			gf.update_bullets(aliens, bullets, ai_settings, screen)
+			gf.update_aliens(ai_settings, stats, screen, ship, aliens, bullets)
 		gf.update_screen(ai_settings, screen, ship, aliens, bullets)
 
 run_game()
