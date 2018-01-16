@@ -93,6 +93,7 @@ def check_bullet_alien_collision(aliens, bullets, stats, sb, ai_settings, screen
 		for aliens in collisions.values():
 			stats.score += ai_settings.alien_points * len(aliens)
 			sb.prep_score()
+		check_high_score(stats, sb)
 	# Create new fleet.
 	if len(aliens) == 0:
 		# Destroy existing bullets, speed up the game, and create a new fleet.
@@ -199,3 +200,9 @@ def check_play_button(ai_settings, screen, stats, play_button, mouse_x, mouse_y,
 		# Create a new fleet and center the sheep.
 		create_fleet(ai_settings, screen, aliens)
 		ship.center_ship()
+
+def check_high_score(stats, sb):
+	"""Check if there is a new high score."""
+	if stats.score > stats.high_score:
+		stats.high_score = stats.score
+		sb.prep_high_score()
