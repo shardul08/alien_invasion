@@ -46,7 +46,7 @@ def run_game():
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				sys.exit()"""
-		gf.check_events(ai_settings, screen, stats, play_button, ship, aliens, bullets)
+		gf.check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets)
 		if stats.game_active:
 			ship.update()
 			"""bullets.update()

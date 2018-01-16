@@ -28,7 +28,7 @@ def check_keyup_events(event, ship):
 	elif event.key == pygame.K_LEFT:
 		ship.moving_left = False
 		
-def check_events(ai_settings, screen, stats, play_button, ship, aliens, bullets):
+def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets):
 	"""Respond to keypress and mouse events."""
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
@@ -52,7 +52,7 @@ def check_events(ai_settings, screen, stats, play_button, ship, aliens, bullets)
 		
 		elif event.type == pygame.MOUSEBUTTONDOWN:
 			mouse_x, mouse_y = pygame.mouse.get_pos()
-			check_play_button(ai_settings, screen, stats, play_button, mouse_x, mouse_y, ship, aliens, bullets)
+			check_play_button(ai_settings, screen, stats, sb, play_button, mouse_x, mouse_y, ship, aliens, bullets)
 
 def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, play_button):
 	"""Update images on the screen and flip to the new screen."""
@@ -99,6 +99,9 @@ def check_bullet_alien_collision(aliens, bullets, stats, sb, ai_settings, screen
 		# Destroy existing bullets, speed up the game, and create a new fleet.
 		bullets.empty()
 		ai_settings.increase_speed()
+		# Increase level.
+		stats.level += 1
+		sb.prep_level()
 		create_fleet(ai_settings, screen, aliens)
 			
 def fire_bullet(ai_settings, ship, screen, bullets):
@@ -181,7 +184,7 @@ def check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets):
 			ship_hit(ai_settings, stats, screen, ship, aliens, bullets)
 			break
 
-def check_play_button(ai_settings, screen, stats, play_button, mouse_x, mouse_y, ship, aliens, bullets):
+def check_play_button(ai_settings, screen, stats, sb, play_button, mouse_x, mouse_y, ship, aliens, bullets):
 	"""Start a new game when the player clicks the lay button."""
 	button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
 	if button_clicked and not stats.game_active:
@@ -192,6 +195,11 @@ def check_play_button(ai_settings, screen, stats, play_button, mouse_x, mouse_y,
 		# Reset game statistics.
 		stats.reset_stats()
 		stats.game_active = True
+		
+		# Reset scoreboard images.
+		sb.prep_score()
+		sb.prep_high_score()
+		sb.prep_level()
 		
 		# Emptythe list of aliens and bulets.
 		aliens.empty()
